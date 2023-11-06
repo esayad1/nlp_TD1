@@ -4,8 +4,8 @@ import pandas as pd
 from sklearn.model_selection import cross_val_score
 
 from data.make_dataset import make_dataset
-from features.make_features import make_features
-from model.main import make_model, make_model2, make_model3
+from features.make_features import make_features, make_feature_2
+from model.main import make_model, make_model2, make_model3, make_model4
 from joblib import dump, load
 
 @click.group()
@@ -21,7 +21,7 @@ def train(task, input_filename, model_dump_filename):
     df = make_dataset(input_filename)
     X, y = make_features(df, task)
 
-    model = make_model2()
+    model = make_model2(task)
     model.fit(X, y)
 
     dump(model, model_dump_filename)
@@ -54,7 +54,7 @@ def evaluate(task, input_filename):
     X, y = make_features(df, task)
 
     # Object with .fit, .predict methods
-    model = make_model2()
+    model = make_model2(task)
 
     # Run k-fold cross validation. Print results
     return evaluate_model(model, X, y)
